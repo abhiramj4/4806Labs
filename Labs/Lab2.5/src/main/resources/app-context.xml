@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN"
+        "http://www.springframework.org/dtd/spring-beans.dtd">
+<beans>
+    <bean id="addressBook" class="lab3.service.AddressBook">
+    </bean>
+    <bean id="controller" class="lab3.service.Controller">
+        <property name="addressBook">
+            <ref bean="addressBook" />
+        </property>
+        <property name="view">
+            <ref bean="mainFrame" />
+        </property>
+    </bean>
+    <bean id="mainFrame" class="lab3.ui.MainFrame" init-method="init">
+        <property name="actionListener">
+            <ref bean="controller" />
+        </property>
+    </bean>
+
+</beans>

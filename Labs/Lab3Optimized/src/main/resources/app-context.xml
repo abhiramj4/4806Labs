@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN"
+        "http://www.springframework.org/dtd/spring-beans.dtd">
+<beans>
+    <bean id="mainFrame" class="ui.MainFrame" init-method="init">
+        <property name="contentPane">
+            <ref bean="mainPanel"/>
+        </property>
+        <property name="title">
+            <value>My To Do List</value>
+        </property>
+    </bean>
+    <bean id="mainPanel" class=
+            "ui.BoxLayoutPanel" init-method="init">
+        <property name="axis">
+            <!--  "1" corresponds to BoxLayout.Y_AXIS -->
+            <!--  Spring can access constants, but it's more complex -->
+            <value>1</value>
+        </property>
+        <property name="panelComponents">
+            <list>
+                <ref bean="itemScrollPane"/>
+                <ref bean="buttonPanel"/>
+            </list>
+        </property>
+    </bean>
+    <bean id="itemScrollPane" class="javax.swing.JScrollPane">
+        <constructor-arg>
+            <ref bean="itemTable"/>
+        </constructor-arg>
+    </bean>
+    <bean id="itemTable" class="javax.swing.JTable">
+        <property name="model">
+            <ref bean="itemTableModel"/>
+        </property>
+    </bean>
+
+
+    <bean id="itemTableModel" class="ui.ItemTableModel">
+        <property name="addressBook">
+            <ref bean="addressBook"/>
+        </property>
+    </bean>
+    <bean id="addressBook" class="ThanosCorp.Lab4.models.AddressBook">
+        <constructor-arg>
+            <ref bean="buddy"></ref>
+        </constructor-arg>
+    </bean>
+    <bean id="buddy" class="models.BuddyInfo">
+        <property name="name" value="John Doe"/>
+        <property name="address" value="123 Street"/>
+        <property name="number" value="123"/>
+    </bean>
+
+
+    <bean id="buttonPanel" class="ui.BoxLayoutPanel" init-method="init">
+        <property name="axis">
+            <!--  "0" corresponds to BoxLayout.X_AXIS -->
+            <value>0</value>
+        </property>
+        <property name="panelComponents">
+            <list>
+                <ref bean="deleteButton"/>
+                <ref bean="addNewButton"/>
+            </list>
+        </property>
+    </bean>
+    <bean id="deleteButton" class="ui.button.ActionListenerButton"
+          init-method="init">
+        <property name="actionListener">
+            <ref bean="deleteButtonActionListener"/>
+        </property>
+        <property name="text">
+            <value>Delete</value>
+        </property>
+    </bean>
+    <bean id="deleteButtonActionListener"
+          class="ui.button.DeleteButtonActionListener">
+        <property name="addressBook">
+            <ref bean="addressBook"/>
+        </property>
+        <property name="table">
+            <ref bean="itemTable"/>
+        </property>
+    </bean>
+    <bean id="addNewButton" class="ui.button.ActionListenerButton"
+          init-method="init">
+        <property name="actionListener">
+            <ref bean="addNewButtonActionListener"/>
+        </property>
+        <property name="text">
+            <value>Add New</value>
+        </property>
+    </bean>
+    <bean id="addNewButtonActionListener"
+          class="ui.button.AddNewButtonActionListener">
+        <property name="addressBook">
+            <ref bean="addressBook"/>
+        </property>
+        <property name="table">
+            <ref bean="itemTable"/>
+        </property>
+    </bean>
+
+</beans>
